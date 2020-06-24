@@ -1,5 +1,4 @@
 const express = require('express');
-const { fstat } = require('fs');
 const { writeFile } = require('fs');
 
 let logData = "";
