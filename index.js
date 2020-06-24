@@ -1,7 +1,8 @@
 const express = require('express');
-const { writeFile } = require('fs');
+const { writeFile, readFile } = require('fs');
 
 let logData = "";
+let users;
 
 function getTimeStamp() {
     const d = new Date();
@@ -17,6 +18,49 @@ function log(str) {
     }
     else {
         logData = `${now} ${str}`;
+    }
+}
+
+function initUsers() {
+    readFile('users.json', function (err, usersData) {
+        if (err) {
+            log('Error reading JSON data!');
+            return;
+        }
+
+        users = JSON.parse(usersData);
+    });
+}
+
+function handleNewUser(name) {
+    if (name in users) {
+        log(`Long time no see ${name}...`);
+    }
+    else {
+        log(`New user: ${name}!`);
+        users[name] = { max_score: 0, num_quizzes: 0 };
+    }
+}
+
+function handleStoreUser(name, score) {
+    if (name in users) {
+        log(`User ${name} scored: ${score}!`);
+
+        if (score > users[name].max_score) {
+            users[name].max_score = score;
+            log(`New high score for ${name}: ${score}! Congrats!`);
+        }
+
+        users[name].num_quizzes++;
+        log(`Registered new completed quiz for ${name}!`);
+        writeFile('users.json', JSON.stringify(users), function (err) {
+            if (err) {
+                log('Error writing users data!');
+            }
+        });
+    }
+    else {
+        log(`Invalid user store request: ${name} - user not found!`);
     }
 }
 
@@ -39,7 +83,18 @@ app.get('/log', (req, res) => {
             console.log('Error writing log data!');
         }
     });
+    log('Updated log file!');
     res.send('Logged');
+});
+
+app.get('/new_user/:name', (req, res) => {
+    handleNewUser(req.params.name);
+    res.send('Handled new user');
+});
+
+app.get('/store_user/:name/:score', (req, res) => {
+    handleStoreUser(req.params.name, req.params.score);
+    res.send('Stored');
 });
 
 const defaultPort = 8080;
@@ -48,4 +103,5 @@ const port = process.env.PORT || defaultPort;
 app.listen(port, () => {
     log('App started...');
     console.log(`App available at localhost:${port}`);
+    initUsers();
 });
