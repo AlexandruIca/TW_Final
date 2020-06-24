@@ -1,0 +1,23 @@
+{
+  "name": "TW_Final",
+  "version": "1.0.0",
+  "description": "- Logging(5.4) - Different user roles(5.1) - Each user's activity(5.7) - Quizz with multiple correct answer(3.2) - Hall of fame(3.12)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexandruIca/TW_Final.git"
+  },
+  "keywords": [],
+  "author": "Alexandru Ica",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/AlexandruIca/TW_Final/issues"
+  },
+  "homepage": "https://github.com/AlexandruIca/TW_Final#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
