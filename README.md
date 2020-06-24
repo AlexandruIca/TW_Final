@@ -1,4 +1,4 @@
-# CPP Quizz
+# CPP Quiz
 - Logging(5.4)
 - Different user roles(5.1)
 - Each user's activity(5.7)
