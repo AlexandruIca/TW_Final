@@ -1,0 +1,27 @@
+[
+    {
+        "code": "void f(int& a, const int& b) {<br>    std::cout << b;<br>    a = 1;<br>    std::cout << b;<br>}<br><br>int main(){<br>    int x = 0;<br>    f(x,x);<br>}",
+        "options": ["01", "00", "11", "10", "undefined"],
+        "correct": [0]
+    },
+    {
+        "code": "void print(char const *str) { std::cout << str; }<br><br>void print(short num) { std::cout << num; }<br><br>int main() {<br><br>    print(\"abc\");<br><br>    print(0);<br><br>    print('A');<br>}",
+        "options": ["abc065", "runtime error", "compilation error", "undefined"],
+        "correct": [2]
+    },
+    {
+        "code": "int main() {<br>    std::cout << 1[\"ABC\"];<br>}",
+        "options": ["A", "B", "66", "compilation error"],
+        "correct": [1]
+    },
+    {
+        "code": "struct X {<br>    X() { std::cout << \"X\"; }<br>};<br><br>int main() { X x(); }",
+        "options": ["X", "x", "compilation error", "undefined", "no output"],
+        "correct": [4]
+    },
+    {
+        "code": "int main() {<br>    int a = 10;<br>    int b = 20;<br>    int x;<br>    x = a, b;<br>    std::cout << x;<br>}",
+        "options": ["10", "20", "undefined", "compilation error"],
+        "correct": [0]
+    }
+]
