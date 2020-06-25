@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const { writeFile, readFile } = require('fs');
 
 let logData = "";
@@ -64,7 +65,21 @@ function handleStoreUser(name, score) {
     }
 }
 
+function getUsersStats() {
+    return JSON.stringify(users);
+}
+
+const router = express.Router();
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+router.post('/login', (req, res) => {
+    log(`User request: ${req.body.user}`);
+    log(`Password request: ${req.body.password}`);
+    res.end('yes');
+});
 
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -73,7 +88,7 @@ app.use(function (req, res, next) {
 });
 
 app.get('/', (req, res) => {
-    log("New request!");
+    log('New request!');
     res.send('Hello');
 });
 
@@ -95,6 +110,21 @@ app.get('/new_user/:name', (req, res) => {
 app.get('/store_user/:name/:score', (req, res) => {
     handleStoreUser(req.params.name, req.params.score);
     res.send('Stored');
+});
+
+app.get('/get_stats', (req, res) => {
+    log('Stats requested!');
+    res.send(getUsersStats());
+});
+
+app.get('/new_quiz/:name', (req, res) => {
+    log('New quiz requested!');
+    readFile('./questions.json', 'utf-8', (err, json) => {
+        if(err) {
+            log('Error reading questions file!');
+        }
+        res.send(json);
+    });
 });
 
 const defaultPort = 8080;

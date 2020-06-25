@@ -125,3 +125,8 @@ body {
 #bottom a {
     color: white;
 }
+
+.code-snippet {
+    background-color: var(--code-bg-color);
+    color: var(--almost-white);
+}
